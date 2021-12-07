@@ -3,15 +3,20 @@ from fastapi import FastAPI, status
 import os
 import urllib
 import json
+from starlette.responses import RedirectResponse
 
 
 host_server = os.environ.get('HOST_SERVER', 'pssql-fastapihackatahon01.postgres.database.azure.com')
 db_name = os.environ.get('DB_NAME', 'postgres')
 db_username = os.environ.get('DB_USERNAME', 'pssqlfastapihackathonadmin')
-db_password = os.environ.get('DB_PASSWORD', '')
+db_password = os.environ.get('DB_PASSWORD', '+@VYFn#R*R32%?77')
 ssl_mode = os.environ.get('SSL_MODE','require')
 
 app = FastAPI()
+
+@app.get("/",include_in_schema=False)
+async def docs_redirect():
+    return RedirectResponse(url="/docs")
 
 @app.get("/v1/Customer/ChurnScore/{customer_id}")
 async def get_customer_churn_score(customer_id:int):
