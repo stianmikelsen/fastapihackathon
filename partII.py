@@ -26,6 +26,7 @@ async def get_customer_churn_score(customer_id:int):
     user=db_username,
     password=db_password)
 
+    print("Connected to db")
     cur = conn.cursor()
 
     query = "Select * from fastapihackathon.CustomerScore where model_name = 'churn_30d' and customer_id = %s and not has_churned "
@@ -33,7 +34,7 @@ async def get_customer_churn_score(customer_id:int):
     records = cur.execute(query,(customer_id,))
     
     records = cur.fetchall()
-     
+    print(len(records))
     record = [dict((cur.description[i][0],value) for i, value in enumerate(row)) for row in records]
     return record
 
